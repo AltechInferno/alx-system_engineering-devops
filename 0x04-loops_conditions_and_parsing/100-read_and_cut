@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# displays the content of the file /etc/passwd.
+
+if [ -f "/etc/passwd" ]; then
+
+    while IFS=: read -r username _ uid _ home _; do
+        echo "Username: $username"
+        echo "User ID: $uid"
+        echo "Home Directory: $home"
+        echo "-------------------"
+    done < "/etc/passwd"
+else
+    echo "/etc/passwd does not exist."
+fi
