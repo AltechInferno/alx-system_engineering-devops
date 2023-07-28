@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Bash script to group visitors by IP and HTTP status code
 
-wk '{ print $1, $9 }' apache-access.log | sort | uniq -c | sort -nr
+awk '{ print $1, $9 }' apache-access.log | sort | uniq -c | sort -nr
 
