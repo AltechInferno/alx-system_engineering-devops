@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # The content of the current directory, in a list format 
 
-for file in *; do
-    if [[ -f "$file" && ! "$file" =~ ^\..* && "$file" =~ ^[^-]*-(.*)$ ]]; then
-        echo "${BASH_REMATCH[1]}"
+for file in *
+do
+    if [[ -f "$file" && "$file" != -* ]]; then
+        echo "${file#*-}"
     fi
 done
+
