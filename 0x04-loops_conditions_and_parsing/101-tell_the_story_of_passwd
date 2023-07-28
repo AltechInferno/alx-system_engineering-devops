@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# displays the content of the file /etc/passwd with a story.
+
+if [ -f "/etc/passwd" ]; then
+
+    while IFS=: read -r username _ uid gid _ home shell; do
+	user_info=$(id "$username")
+
+        
+        group_id=$(echo "$user_info" | awk '{print $3}')
+
+        password=$(awk -F':' -v user="$username" '{if ($1 == user) {print $2}}' "/etc/passwd")
+
+        echo "The user $username is part of the $group_id gang, lives in $home, and rides $shell."
+        echo "User ID's place is protected by the passcode $password, more info about the user here: $user_info"
+        echo "-------------------------------------------------------------"
+    done < "/etc/passwd"
+else
+    echo "/etc/passwd does not exist."
+fi
+
