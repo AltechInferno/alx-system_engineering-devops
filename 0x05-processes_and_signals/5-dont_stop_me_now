@@ -2,7 +2,5 @@
 # script that stops 4-to_infinity_and_beyond process.
 
 ./4-to_infinity_and_beyond &
-
-sleep 5
 killall 4-to_infinity_and_beyond
 
