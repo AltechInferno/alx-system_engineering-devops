@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 # This script displays To infinity and beyond indefinitely.
 
-while true
+j=0
+
+while [ $j -eq 0 ]
 do
-    echo "To infinity and beyond"
-    sleep 2
-
-    if [ $? -ne 0 ]; then
-        echo "I am invincible!!!"
-        break
-    fi
+  echo "To infinity and beyond"
+  sleep 2
+  trap 'echo "I am invincible!!!"' 15
 done
-
