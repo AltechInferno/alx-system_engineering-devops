@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-# Get the PID of all processes with 'bash' in their name
-pids=$(pgrep bash)
-
-for pid in $pids; do
-    name=$(ps -p "$pid" -o comm=)
-    echo "$pid $name"
-done
+# Get the PID and process name for processes containing 'bash' in their name
+pgrep -l bash
 
