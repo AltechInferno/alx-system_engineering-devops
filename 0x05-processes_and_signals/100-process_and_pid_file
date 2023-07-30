@@ -11,11 +11,10 @@ cleanup() {
 }
 
 trap cleanup SIGQUIT SIGTERM
-trap 'echo "Y U no love me?!"' SIGINT
-
+trap 'echo "Y U no love me?"' SIGINT
 echo $$ > /var/run/myscript.pid
 
-while :
+while true
 do
     echo "To infinity and beyond"
     sleep 2
