@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 # Function to delete the PID file and terminate the script
-# Register cleanup function for SIGQUIT and SIGTERM signals
-# Register signal handler for SIGINT signal
-# Display PID and create the PID file
 
 cleanup() {
     echo "Cleaning up..."
@@ -19,4 +16,3 @@ do
     echo "To infinity and beyond"
     sleep 2
 done
-
