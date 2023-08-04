@@ -1,0 +1,4 @@
+#!/bin/bash
+# Displays all the active IPv4 addresses.
+
+ip addr | grep -E 'inet (addr:)?[0-9.]+' | cut -d '/' -f 4
