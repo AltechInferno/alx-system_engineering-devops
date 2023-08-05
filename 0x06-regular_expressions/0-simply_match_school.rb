@@ -1,12 +1,13 @@
 #!/usr/bin/env ruby
 
-regex = /School/
+
+rg = /School/
 input = ARGV[0]
 
-match_data = input.match(regex)
+match_data = input.scan(rg)
 
-if match_data
-  puts match_data[0]
+if match_data.any?
+  puts match_data.join
 else
   puts ""
 end
