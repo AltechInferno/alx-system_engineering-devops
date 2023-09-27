@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# Update package lists
+sudo apt-get update
+
+sudo apt-get -y install nginx
+
+sudo ufw allow 'Nginx HTTP'
+
+sudo mkdir -p /var/www/html/
+sudo chmod -R 755 /var/www
+
+echo 'Hello World!' | sudo tee /var/www/html/index.html
+
+SERVER_CONFIG=$(cat <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    if (\$request_filename ~ redirect_me){
+        rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+    }
+}
+EOF
+)
+
+echo "$SERVER_CONFIG" | sudo tee /etc/nginx/sites-enabled/default > /dev/null
+
+if sudo systemctl is-active --quiet nginx; then
+    sudo service nginx restart
+else
+    sudo service nginx start
+fi
