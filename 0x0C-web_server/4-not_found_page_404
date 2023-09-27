@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Update package lists
+
+sudo apt-get update
+
+sudo apt-get -y install nginx
+
+sudo ufw allow 'Nginx HTTP'
+
+sudo mkdir -p /var/www/html/
+sudo chmod -R 755 /var/www
+
+echo 'Hello World!' | sudo tee /var/www/html/index.html
+
+SERVER_CONFIG=$(cat <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+        root /var/www/html;
+    }
+
+    location /redirect_me {
+        return 301 https://www.example.com/; # Replace with the desired URL
+    }
+}
+EOF
+)
+
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
+
+echo "$SERVER_CONFIG" | sudo tee /etc/nginx/sites-enabled/default > /dev/null
+
+if sudo systemctl is-active --quiet nginx; then
+    sudo service nginx restart
+else
+    sudo service nginx start
+fi
+
