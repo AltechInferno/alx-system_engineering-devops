@@ -1,34 +1,32 @@
 #!/usr/bin/env bash
 
-# Define subdomains to check
-subdomains=('www' 'lb-01' 'web-01' 'web-02')
-
-# Function to get information about a subdomain
-get_subdomain_info() {
+# Function to print DNS information
+print_dns_info() {
     local subdomain="$1"
-    local domain="$2"
+    local alias="$2"
+    local dns_response
+    dns_response=$(dig "$subdomain" +short)
 
-    local dig_result
-    dig_result=$(dig "$subdomain.$domain" +short)
-
-    if [ -n "$dig_result" ]; then
+    if [ -n "$dns_response" ]; then
         local record_type
-        record_type=$(dig "$subdomain.$domain" +short -t "$dig_result" | awk '{print $4}')
-        echo "The subdomain $subdomain is a $record_type record and points to $dig_result"
+        record_type=$(dig "$subdomain" +short -t "$dns_response" | awk '{print $4}')
+        echo "The subdomain $alias is a $record_type record and points to $dns_response"
     else
-        echo "No DNS information found for $subdomain.$domain"
+        echo "No DNS information found for $subdomain"
     fi
 }
 
 # Check the number of arguments
 if [ $# -eq 1 ]; then
     domain="$1"
+    subdomains=("www" "lb-01" "web-01" "web-02")
+
     for subdomain in "${subdomains[@]}"; do
-        get_subdomain_info "$subdomain" "$domain"
+        print_dns_info "www.$domain" "www"
     done
 elif [ $# -eq 2 ]; then
     domain="$1"
     sub="$2"
-    get_subdomain_info "$sub" "$domain"
+    print_dns_info "$sub.$domain" "$sub"
 fi
 
