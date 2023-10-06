@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Function to print DNS information
+prints() {
+    local subdomain="$1"
+    local alias="$2"
+    dig "$subdomain" +short | while read -r ip; do
+        echo "The subdomain $alias is a $(dig "$subdomain" +short -t "$ip" | awk '{print $4}') record and points to $ip"
+    done
+}
+
+# Check for the number of arguments
+if [ $# -eq 1 ]; then
+    prints "www.$1" "www"
+    prints "lb-01.$1" "lb-01"
+    prints "web-01.$1" "web-01"
+    prints "web-02.$1" "web-02"
+elif [ $# -eq 2 ]; then
+    prints "$2.$1" "$2"
+fi
+
