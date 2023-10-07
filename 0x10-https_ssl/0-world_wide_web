@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 #function for world wide web
 
 prints () {
