@@ -1,32 +1,32 @@
 #!/usr/bin/env bash
+# word wide web
 
-# Function to print DNS information
-print_dns_info() {
-    local subdomain="$1"
-    local alias="$2"
-    local dns_response
-    dns_response=$(dig "$subdomain" +short)
+prints () {
+    local domain="$1"
+    local subdomain="$2"
 
-    if [ -n "$dns_response" ]; then
-        local record_type
-        record_type=$(dig "$subdomain" +short -t "$dns_response" | awk '{print $4}')
-        echo "The subdomain $alias is a $record_type record and points to $dns_response"
-    else
-        echo "No DNS information found for $subdomain"
-    fi
+    dig "$domain" | grep -A1 'ANSWER SECTION:' | sed -r "s/$domain/$subdomain/g" | awk -F" " 'NR==2 { print "The subdomain " $1 " is a " $4 " record and points to " $5 }'
 }
 
-# Check the number of arguments
 if [ $# -eq 1 ]; then
-    domain="$1"
-    subdomains=("www" "lb-01" "web-01" "web-02")
+    domain="www.$1"
+    subdomain="www"
+    prints "$domain" "$subdomain"
+    
+    domain="lb-01.$1"
+    subdomain="lb-01"
+    prints "$domain" "$subdomain"
 
-    for subdomain in "${subdomains[@]}"; do
-        print_dns_info "www.$domain" "www"
-    done
+    domain="web-01.$1"
+    subdomain="web-01"
+    prints "$domain" "$subdomain"
+
+    domain="web-02.$1"
+    subdomain="web-02"
+    prints "$domain" "$subdomain"
 elif [ $# -eq 2 ]; then
-    domain="$1"
-    sub="$2"
-    print_dns_info "$sub.$domain" "$sub"
+    domain="$2.$1"
+    subdomain="$2"
+    prints "$domain" "$subdomain"
 fi
 
