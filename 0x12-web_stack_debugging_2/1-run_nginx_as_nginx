@@ -9,7 +9,7 @@ sed -i 's/#user www-data/user nginx;/' /etc/nginx/nginx.conf
 sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-available/default
 
 # Ensure correct permissions for nginx.conf
-chmod -R 777 /etc/nginx/
+chmod 644 /etc/nginx/nginx.conf
 
 # Stop Apache2 if it's running (it's not needed if using Nginx)
 pkill apache2
