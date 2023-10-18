@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# Fixing container to meet requirements
 
 # Change the user to nginx in the nginx.conf file
+chmod -R 777 /etc/nginx/
 sed -i 's/#user www-data/user nginx/' /etc/nginx/nginx.conf
 
 # Change the listening port to 8080 in the default site configuration
@@ -15,5 +15,5 @@ chmod 644 /etc/nginx/nginx.conf
 pkill apache2
 
 # Start Nginx as the nginx user
-sudo -u nginx service nginx start
+sudo -u nginx nginx -c /etc/nginx/nginx.conf
 
