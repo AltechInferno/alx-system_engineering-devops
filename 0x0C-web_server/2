@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Check if the required number of arguments are provided
+
+if [ $# -lt 3 ]; then
+   echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+  exit 1
+fi
+
+SSH_OPTIONS="-o StrictHostKeyChecking=no"
+
+if [ $# -eq 4 ]; then
+  SSH_OPTIONS="$SSH_OPTIONS -i $4"
+fi
+
+scp $SSH_OPTIONS "$1" "$3@$2":~/
+
+if [ $? -eq 0 ]; then
+  echo "File transfer successful."
+else
+  echo "File transfer failed."
+fi
+

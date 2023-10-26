@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
+<<<<<<< HEAD
 
 # Remove the default configuration from sites-enabled
 rm /etc/nginx/sites-enabled/default
 ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx restart
 
+=======
+# Remove the default site configuration
+
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
+>>>>>>> 0ab69acba525aa112e471e579c2c1d76a66951b5

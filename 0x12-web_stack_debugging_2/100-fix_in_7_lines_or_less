@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# runs nginx as user listening on all active IPs on port 8080 instead of port 80
+chmod -R 777 /etc/nginx/
+pkill apache2
+sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
+sed -i 's/80/8080/g' /etc/nginx/sites-available/default
+sudo -u nginx nginx -c /etc/nginx/nginx.conf

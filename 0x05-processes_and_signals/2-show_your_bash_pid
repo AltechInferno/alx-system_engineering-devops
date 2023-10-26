@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Get the PID of the current Bash shell
+
+current_pid=$$
+ps -f --ppid "$current_pid" | grep bash | grep -v grep
+
