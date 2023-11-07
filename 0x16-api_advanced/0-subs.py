@@ -5,9 +5,9 @@ import requests
 
 def number_of_subscribers(subreddit):
     """num of suscribers"""
-
+    agent = 'Mozilla/5.0'
     headers = {
-        'User-Agent': u_agent
+        'User-Agent': agent
     }
 
     if subreddit is None or type(subreddit) != str:
